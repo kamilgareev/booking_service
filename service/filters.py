@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from django.db.models import Q
 from django_filters import CharFilter, NumberFilter
@@ -16,7 +16,7 @@ class RoomFilter(FilterSet):
     cost_per_day = NumberFilter()
 
     def filter_available_rooms(self, queryset, name, value):
-        start_time, end_time = [datetime.datetime.strptime(val, '%y-%m-%d_%H:%M:%S').astimezone()
+        start_time, end_time = [datetime.strptime(val, '%y-%m-%d_%H:%M:%S').astimezone()
                                 for val in value.split(',')]
         return queryset.exclude(Q(bookings__start_time__range=(start_time, end_time)) |
                                 Q(bookings__end_time__range=(start_time, end_time)) |

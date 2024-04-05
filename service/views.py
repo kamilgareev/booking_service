@@ -17,7 +17,7 @@ from service.serializers import RoomSerializer, BookingSerializer
         summary='Получение списка комнат',
         description="""Получение список комнат.Возможно указание параметров 'start_time' и 
         'end_time' в url для получения списка свободных комнат в указанный временной период.
-        Пример такого url: '.../booking/room/?start_time=24-03-29_09:10:01&end_time=24-05-29_09:11:11'.
+        Пример такого url: '.../booking/room/?available_rooms=24-05-01_09:10:01,24-06-01_09:10:01'.
         Доступно всем пользователем, в том числе и неавторизованным."""
     ),
     retrieve=extend_schema(
