@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from service.business_logic import _get_free_rooms
+from service.filters import RoomFilter
 from service.models import Room, Booking
 from service.permissions import IsAdminOrReadOnly, IsAdminOrRoomClient
 from service.serializers import RoomSerializer, BookingSerializer
@@ -46,13 +46,8 @@ class RoomViewSet(ModelViewSet):
     permission_classes = [IsAdminOrReadOnly]
     serializer_class = RoomSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ['cost_per_day', 'beds']
+    filterset_class = RoomFilter
     ordering_fields = ['cost_per_day', 'beds']
-
-    def get_queryset(self):
-        if self.request.GET.get('start_time') and self.request.GET.get('end_time'):
-            return _get_free_rooms(self)
-        return Room.objects.all()
 
 
 @extend_schema(tags=['Бронирования, модель Booking'])

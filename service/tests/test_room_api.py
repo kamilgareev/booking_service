@@ -322,24 +322,23 @@ class RoomApiTestCase(APITestCase):
                 'beds': 2
             },
         ]
-        response = self.client.get(url, data={'start_time': '24-04-21_09:10:01',
-                                              'end_time': '24-05-21_09:10:01'})
+        response = self.client.get(url, data={'available_rooms': '24-04-21_09:10:01,24-05-21_09:10:01'})
+
         self.assertEqual(expected_data_1, response.data)
 
         Booking.objects.create(room=self.room_1, client=user,
                                start_time='2024-04-22T09:10:01Z',
                                end_time='2024-04-25T09:10:01Z')
 
-        response = self.client.get(url, data={'start_time': '24-04-21_09:10:01',
-                                              'end_time': '24-05-21_09:10:01'})
+        response = self.client.get(url, data={'available_rooms': '24-04-21_09:10:01,24-05-21_09:10:01'})
+
         self.assertEqual(expected_data_2, response.data)
 
         Booking.objects.create(room=self.room_2, client=user,
                                start_time='2024-05-20T09:10:01Z',
                                end_time='2024-06-20T09:10:01Z')
 
-        response = self.client.get(url, data={'start_time': '24-04-21_09:10:01',
-                                              'end_time': '24-05-21_09:10:01'})
+        response = self.client.get(url, data={'available_rooms': '24-04-21_09:10:01,24-05-21_09:10:01'})
         self.assertEqual([], response.data)
 
 
